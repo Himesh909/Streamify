@@ -15,9 +15,9 @@ const Layout = ({ children, showSidebar = false }) => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navbar toggleSidebar={toggleSidebar} showSidebar={showSidebar} />
-      <div className="flex relative">
+      <div className="flex flex-1 relative">
         {/* Mobile overlay/backdrop - only visible when sidebar is open on mobile */}
         {isSidebarOpen && (
           <div
@@ -31,15 +31,19 @@ const Layout = ({ children, showSidebar = false }) => {
           - On mobile: Only shown when toggled (isSidebarOpen)
           - On tablet/desktop (sm+): Always visible regardless of toggle state
         */}
-        <div className={`${isSidebarOpen ? "block" : "hidden"} sm:block`}>
+        <div
+          className={`${
+            isSidebarOpen ? "block" : "hidden"
+          } sm:block sm:sticky sm:top-16 h-[calc(100vh-4rem)]`}
+        >
           <Sidebar
             closeSidebarOnMobile={closeSidebar}
             showSidebar={showSidebar}
           />
         </div>
 
-        <div className="flex-1 flex flex-col">
-          <main className="flex-1 overflow-y-auto">{children}</main>
+        <div className="flex-1 flex flex-col overflow-auto">
+          <main className="flex-1">{children}</main>
         </div>
       </div>
     </div>
