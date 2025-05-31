@@ -90,9 +90,7 @@ const CallContent = () => {
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
 
-  const navigate = useNavigate();
-
-  if (callingState === CallingState.LEFT) return navigate("/");
+  if (callingState === CallingState.LEFT) return window.close();
 
   return (
     <StreamTheme>
