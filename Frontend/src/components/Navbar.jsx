@@ -1,18 +1,24 @@
-import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
+import { BellIcon, LogOutIcon, MenuIcon, ShipWheelIcon } from "lucide-react";
 import useAuthUser from "../hooks/useAuthUser";
 import { Link, useLocation } from "react-router";
 import ThemeSelector from "./ThemeSelector";
 import useLogout from "../hooks/useLogout";
 
-const Navbar = () => {
+const Navbar = ({ toggleSidebar }) => {
   const { authUser } = useAuthUser();
-  const location = useLocation();
-  const isChatPage = location.pathname?.startsWith("/chat");
   const { logoutMutation, isPending, error } = useLogout();
 
   return (
     <nav className="bg-base-200 border-b border-base-300 sticky top-0 z-30 h-16 flex items-center w-full">
-      <div className="pl-5 sm:px-6 lg:px-8">
+      <div className="pl-5 sm:px-6 lg:px-8 flex items-center">
+        {/* Hamburger Menu Button - Only visible on mobile */}
+        <button
+          className="btn btn-ghost btn-circle mr-2 block sm:hidden"
+          onClick={toggleSidebar}
+        >
+          <MenuIcon className="h-5 w-5 text-base-content opacity-70" />
+        </button>
+
         <Link to="/" className="flex items-center gap-2.5">
           <ShipWheelIcon className="size-6 sm:size-9 text-primary" />
           <span className="text-xl sm:text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">

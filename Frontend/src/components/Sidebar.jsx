@@ -1,29 +1,29 @@
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
-import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
+import { BellIcon, HomeIcon, UsersIcon } from "lucide-react";
 
-const Sidebar = () => {
+const Sidebar = ({ closeSidebarOnMobile }) => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const currentPath = location.pathname;
 
-  return (
-    <aside className="w-64 bg-base-200 border-r border-base-300 hidden lg:flex flex-col h-[calc(100vh-4rem)] sticky top-16">
-      {/* <div className="p-5 border-b border-base-300">
-        <Link to="/" className="flex items-center gap-2.5">
-          <ShipWheelIcon className="size-9 text-primary" />
-          <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-            Streamify
-          </span>
-        </Link>
-      </div> */}
+  // Function to handle link clicks - only closes sidebar on mobile
+  const handleLinkClick = () => {
+    // Check if we're on mobile by looking at window width
+    if (window.innerWidth < 640) {
+      closeSidebarOnMobile();
+    }
+  };
 
+  return (
+    <aside className="w-64 bg-base-200 border-r border-base-300 fixed sm:relative flex flex-col h-[calc(100vh-4rem)] top-16 sm:top-0 z-20 shadow-lg sm:shadow-none">
       <nav className="flex-1 p-4 space-y-1 ">
         <Link
           to="/"
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
             currentPath === "/" ? "btn-active" : ""
           }`}
+          onClick={handleLinkClick}
         >
           <HomeIcon className="size-5 text-base-content opacity-70" />
           <span>Home</span>
@@ -34,6 +34,7 @@ const Sidebar = () => {
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
             currentPath === "/friends" ? "btn-active" : ""
           }`}
+          onClick={handleLinkClick}
         >
           <UsersIcon className="size-5 text-base-content opacity-70" />
           <span>Friends</span>
@@ -44,6 +45,7 @@ const Sidebar = () => {
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
             currentPath === "/notifications" ? "btn-active" : ""
           }`}
+          onClick={handleLinkClick}
         >
           <BellIcon className="size-5 text-base-content opacity-70" />
           <span>Notifications</span>
