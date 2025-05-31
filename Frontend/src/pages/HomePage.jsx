@@ -1,17 +1,28 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
+  getFriendRequests,
   getOutgoingFriendReqs,
   getRecommendedUsers,
   sendFriendRequest,
 } from "../lib/api";
-import { CheckCircleIcon, MapPinIcon, UserPlusIcon } from "lucide-react";
+import {
+  BellDot,
+  CheckCircleIcon,
+  CloudCog,
+  MapPinIcon,
+  UserPlusIcon,
+} from "lucide-react";
 import { getLanguageFlag } from "../components/FriendCard";
 import { capitialize } from "../lib/utils";
+import { useNavigate } from "react-router";
 
 const HomePage = () => {
   const queryClient = useQueryClient();
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
+  const [incomingRequestsIds, setIncomingRequestsIds] = useState(new Set());
+
+  const navigate = useNavigate();
 
   const { data: recommendedUsers = [], isLoading: loadingUsers } = useQuery({
     queryKey: ["users"],
@@ -21,6 +32,11 @@ const HomePage = () => {
   const { data: outgoingFriendsReqs = [] } = useQuery({
     queryKey: ["outgoingFriendsReqs"],
     queryFn: getOutgoingFriendReqs,
+  });
+
+  const { data: incomingFriendsReqs = [] } = useQuery({
+    queryKey: ["friendRequests"],
+    queryFn: getFriendRequests,
   });
 
   const { mutate: sendRequestMutation, isPending } = useMutation({
@@ -38,6 +54,19 @@ const HomePage = () => {
       setOutgoingRequestsIds(outgoingIds);
     }
   }, [outgoingFriendsReqs]);
+
+  useEffect(() => {
+    const incomingIds = new Set();
+    if (
+      incomingFriendsReqs.incomingReqs &&
+      incomingFriendsReqs.incomingReqs.length > 0
+    ) {
+      incomingFriendsReqs.incomingReqs.forEach((req) => {
+        incomingIds.add(req.sender._id);
+      });
+      setIncomingRequestsIds(incomingIds);
+    }
+  }, [incomingFriendsReqs]);
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -74,6 +103,7 @@ const HomePage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {recommendedUsers.map((user) => {
                 const hasRequestBeenSent = outgoingRequestsIds.has(user._id);
+                const hasRequestBeenGetted = incomingRequestsIds.has(user._id);
 
                 return (
                   <div
@@ -118,15 +148,31 @@ const HomePage = () => {
                       {/* Action button */}
                       <button
                         className={`btn w-full mt-2 ${
-                          hasRequestBeenSent ? "btn-disabled" : "btn-primary"
+                          hasRequestBeenSent
+                            ? "btn-disabled"
+                            : hasRequestBeenGetted
+                            ? "btn-secondary"
+                            : "btn-primary"
                         } `}
-                        onClick={() => sendRequestMutation(user._id)}
+                        // onClick={() => sendRequestMutation(user._id)}
+                        onClick={() => {
+                          if (!hasRequestBeenSent && !hasRequestBeenGetted) {
+                            sendRequestMutation(user._id);
+                          } else {
+                            navigate("/notifications");
+                          }
+                        }}
                         disabled={hasRequestBeenSent || isPending}
                       >
                         {hasRequestBeenSent ? (
                           <>
                             <CheckCircleIcon className="size-4 mr-2" />
                             Request Sent
+                          </>
+                        ) : hasRequestBeenGetted ? (
+                          <>
+                            <BellDot className="size-4 mr-2" />
+                            Accept or Reject Request
                           </>
                         ) : (
                           <>
