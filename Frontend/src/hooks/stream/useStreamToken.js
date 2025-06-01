@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getStreamToken } from "../../lib/api";
 
-const useStreamToken = () => {
+const useStreamToken = (authUser) => {
   const { data } = useQuery({
     queryKey: ["streamToken"],
     queryFn: getStreamToken,

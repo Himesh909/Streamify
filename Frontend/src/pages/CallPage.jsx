@@ -24,7 +24,7 @@ const CallPage = () => {
 
   const { authUser, isLoading } = useAuthUser();
 
-  const { tokenData } = useStreamToken();
+  const { tokenData } = useStreamToken(authUser);
 
   useEffect(() => {
     const initCall = async () => {

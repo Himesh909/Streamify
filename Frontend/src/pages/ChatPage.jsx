@@ -12,6 +12,7 @@ import {
   Thread,
   useCreateChatClient,
 } from "stream-chat-react";
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 import { StreamChat } from "stream-chat";
 import toast from "react-hot-toast";
 import { ChatLoader, CallButton } from "../components";
@@ -26,7 +27,7 @@ const ChatPage = () => {
   const [loading, setLoading] = useState(true);
 
   const { authUser } = useAuthUser();
-  const { tokenData } = useStreamToken();
+  const { tokenData } = useStreamToken(authUser);
 
   useEffect(() => {
     const initChat = async () => {
