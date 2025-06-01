@@ -1,5 +1,7 @@
-import React from "react";
 import { Navigate, Route, Routes } from "react-router";
+import { Toaster } from "react-hot-toast";
+import { useAuthUser } from "./hooks";
+import useThemeStore from "./store/useThemeStore.js";
 import {
   CallPage,
   ChatPage,
@@ -8,13 +10,9 @@ import {
   NotificationsPage,
   OnboardingPage,
   SignupPage,
+  FriendsPage,
 } from "./pages";
-import { Toaster } from "react-hot-toast";
-import PageLoader from "./components/PageLoader.jsx";
-import useAuthUser from "./hooks/useAuthUser.js";
-import Layout from "./components/Layout.jsx";
-import useThemeStore from "./store/useThemeStore.js";
-import FriendsPage from "./pages/FriendsPage.jsx";
+import { PageLoader, Layout } from "./components";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();

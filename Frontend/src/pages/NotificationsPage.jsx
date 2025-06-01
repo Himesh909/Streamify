@@ -10,7 +10,7 @@ import {
   MessageSquareIcon,
   UserCheckIcon,
 } from "lucide-react";
-import NoNotificationsFound from "../components/NoNotificationsFound";
+import { NoNotificationsFound } from "../components";
 import { capitialize } from "../lib/utils";
 import { LANGUAGE_TO_FLAG } from "../constants";
 

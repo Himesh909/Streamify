@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getFriendRequests,
   getOutgoingFriendReqs,
@@ -9,7 +9,6 @@ import {
 import {
   BellDot,
   CheckCircleIcon,
-  CloudCog,
   MapPinIcon,
   UserPlusIcon,
 } from "lucide-react";

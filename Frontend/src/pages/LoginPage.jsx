@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ShipWheelIcon, EyeOff, Eye } from "lucide-react";
 import { Link } from "react-router";
-import useLogin from "../hooks/useLogin";
+import { useLogin } from "../hooks";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({

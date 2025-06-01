@@ -5,6 +5,7 @@ import LoginPage from "./LoginPage";
 import NotificationsPage from "./NotificationsPage";
 import OnboardingPage from "./OnboardingPage";
 import SignupPage from "./SignupPage";
+import FriendsPage from "./FriendsPage";
 
 export {
   CallPage,
@@ -14,4 +15,5 @@ export {
   NotificationsPage,
   OnboardingPage,
   SignupPage,
+  FriendsPage,
 };

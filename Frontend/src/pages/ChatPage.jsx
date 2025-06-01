@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import useAuthUser from "../hooks/useAuthUser";
+import { useAuthUser } from "../hooks";
 import { useQuery } from "@tanstack/react-query";
 import { getStreamToken } from "../lib/api";
 import {
@@ -16,8 +16,7 @@ import {
 } from "stream-chat-react";
 import { StreamChat } from "stream-chat";
 import toast from "react-hot-toast";
-import ChatLoader from "../components/ChatLoader";
-import CallButton from "../components/CallButton";
+import { ChatLoader, CallButton } from "../components";
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
