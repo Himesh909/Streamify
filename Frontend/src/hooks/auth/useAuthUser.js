@@ -8,7 +8,7 @@ const useAuthUser = () => {
     retry: false, // auth check
     refetchOnWindowFocus: false,
   });
-  return { isLoading: authUser.isLoading, authUser: authUser.data?.user };
+  return { authUser: authUser.data?.user, isLoading: authUser.isLoading };
 };
 
 export default useAuthUser;

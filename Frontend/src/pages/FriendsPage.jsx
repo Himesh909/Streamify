@@ -1,14 +1,10 @@
 import { FriendCard, NoFriendsFound } from "../components";
 import { Link } from "react-router";
 import { UsersIcon } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { getUserFriends } from "../lib/api";
+import { useUserFriends } from "../hooks";
 
 const FriendsPage = () => {
-  const { data: friends = [], isLoading: loadingFriends } = useQuery({
-    queryKey: ["friends"],
-    queryFn: getUserFriends,
-  });
+  const { friends, loadingFriends } = useUserFriends();
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">

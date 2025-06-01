@@ -1,9 +1,3 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  acceptFriendRequest,
-  getFriendRequests,
-  rejectFriendRequest,
-} from "../lib/api";
 import {
   BellIcon,
   ClockIcon,
@@ -13,36 +7,17 @@ import {
 import { NoNotificationsFound } from "../components";
 import { capitialize } from "../lib/utils";
 import { LANGUAGE_TO_FLAG } from "../constants";
+import {
+  useAcceptFriendRequest,
+  useFriendRequests,
+  useRejectFriendRequest,
+} from "../hooks";
 
 const NotificationsPage = () => {
-  const queryClient = useQueryClient();
-  const { data: friendRequests, isLoading } = useQuery({
-    queryKey: ["friendRequests"],
-    queryFn: getFriendRequests,
-  });
+  const { acceptRequestMutation, isAccepting } = useAcceptFriendRequest();
+  const { rejectRequestMutation, isRejecting } = useRejectFriendRequest();
 
-  const { mutate: acceptRequestMutation, isPending: isAccepting } = useMutation(
-    {
-      mutationFn: acceptFriendRequest,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["friendRequests"] });
-        queryClient.invalidateQueries({ queryKey: ["friends"] });
-      },
-    }
-  );
-
-  const { mutate: rejectRequestMutation, isPending: isRejecting } = useMutation(
-    {
-      mutationFn: rejectFriendRequest,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["friendRequests"] });
-        queryClient.invalidateQueries({ queryKey: ["friends"] });
-      },
-    }
-  );
-
-  const incomingRequests = friendRequests?.incomingReqs || [];
-  const acceptedRequests = friendRequests?.acceptedReqs || [];
+  const { incomingRequests, acceptedRequests, isLoading } = useFriendRequests();
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">

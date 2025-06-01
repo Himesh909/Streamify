@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useAuthUser } from "../hooks";
-import { useQuery } from "@tanstack/react-query";
-import { getStreamToken } from "../lib/api";
+import { useAuthUser, useStreamToken } from "../hooks";
 import {
   StreamVideo,
   StreamVideoClient,
@@ -13,10 +11,8 @@ import {
   CallingState,
   useCallStateHooks,
 } from "@stream-io/video-react-sdk";
-
-import "@stream-io/video-react-sdk/dist/css/styles.css";
 import toast from "react-hot-toast";
-import { PageLoader } from "../componentsr";
+import { PageLoader } from "../components";
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
@@ -28,11 +24,7 @@ const CallPage = () => {
 
   const { authUser, isLoading } = useAuthUser();
 
-  const { data: tokenData } = useQuery({
-    queryKey: ["streamToken"],
-    queryFn: getStreamToken,
-    enabled: !!authUser, // This will run only when authUser is available
-  });
+  const { tokenData } = useStreamToken();
 
   useEffect(() => {
     const initCall = async () => {

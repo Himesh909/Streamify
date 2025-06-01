@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { useAuthUser } from "../hooks";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuthUser, useOnboarding } from "../hooks";
 import toast from "react-hot-toast";
-import { completeOnBoarding } from "../lib/api";
 import {
   CameraIcon,
   MapPinIcon,
@@ -12,9 +10,6 @@ import {
 import { LANGUAGES } from "../constants";
 
 const OnboardingPage = () => {
-  const { authUser } = useAuthUser();
-  const queryClient = useQueryClient();
-
   const [formState, setFormState] = useState({
     fullName: authUser?.fullName || "",
     bio: authUser?.bio || "",
@@ -24,16 +19,8 @@ const OnboardingPage = () => {
     profilePic: authUser?.profilePic || "",
   });
 
-  const { mutate: onboardingMutation, isPending } = useMutation({
-    mutationFn: completeOnBoarding,
-    onSuccess: () => {
-      toast.success("Profile Onboarded Successfully");
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-    },
-    onError: (error) => {
-      toast.error(error.response?.data?.message);
-    },
-  });
+  const { authUser } = useAuthUser();
+  const { onboardingMutation, isPending } = useOnboarding();
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useAuthUser } from "../hooks";
-import { useQuery } from "@tanstack/react-query";
-import { getStreamToken } from "../lib/api";
+import { useAuthUser, useStreamToken } from "../hooks";
 import {
   Chat,
   Channel,
@@ -28,12 +26,7 @@ const ChatPage = () => {
   const [loading, setLoading] = useState(true);
 
   const { authUser } = useAuthUser();
-
-  const { data: tokenData } = useQuery({
-    queryKey: ["streamToken"],
-    queryFn: getStreamToken,
-    enabled: !!authUser, // This will run only when authUser is available
-  });
+  const { tokenData } = useStreamToken();
 
   useEffect(() => {
     const initChat = async () => {

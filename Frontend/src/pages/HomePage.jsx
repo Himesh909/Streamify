@@ -15,6 +15,12 @@ import {
 import { getLanguageFlag } from "../components/FriendCard";
 import { capitialize } from "../lib/utils";
 import { useNavigate } from "react-router";
+import {
+  useIncomingFriendRequests,
+  useOutgoingFriendRequests,
+  useRecommendedUsers,
+  useSendFriendRequest,
+} from "../hooks";
 
 const HomePage = () => {
   const queryClient = useQueryClient();
@@ -23,26 +29,13 @@ const HomePage = () => {
 
   const navigate = useNavigate();
 
-  const { data: recommendedUsers = [], isLoading: loadingUsers } = useQuery({
-    queryKey: ["users"],
-    queryFn: getRecommendedUsers,
-  });
+  const { recommendedUsers, loadingUsers } = useRecommendedUsers();
 
-  const { data: outgoingFriendsReqs = [] } = useQuery({
-    queryKey: ["outgoingFriendsReqs"],
-    queryFn: getOutgoingFriendReqs,
-  });
+  const { outgoingFriendsReqs } = useOutgoingFriendRequests();
 
-  const { data: incomingFriendsReqs = [] } = useQuery({
-    queryKey: ["friendRequests"],
-    queryFn: getFriendRequests,
-  });
+  const { incomingFriendsReqs } = useIncomingFriendRequests();
 
-  const { mutate: sendRequestMutation, isPending } = useMutation({
-    mutationFn: sendFriendRequest,
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["outgoingFriendsReqs"] }),
-  });
+  const { sendRequestMutation, isPending } = useSendFriendRequest();
 
   useEffect(() => {
     const outgoingIds = new Set();
