@@ -7,6 +7,25 @@ const Sidebar = ({ closeSidebarOnMobile, showSidebar }) => {
   const location = useLocation();
   const currentPath = location.pathname;
 
+  // Navigation links array
+  const navLinks = [
+    {
+      to: "/",
+      label: "Home",
+      icon: <HomeIcon className="size-5 text-base-content opacity-70" />,
+    },
+    {
+      to: "/friends",
+      label: "Friends",
+      icon: <UsersIcon className="size-5 text-base-content opacity-70" />,
+    },
+    {
+      to: "/notifications",
+      label: "Notifications",
+      icon: <BellIcon className="size-5 text-base-content opacity-70" />,
+    },
+  ];
+
   // Function to handle link clicks - only closes sidebar on mobile
   const handleLinkClick = () => {
     // Check if we're on mobile by looking at window width
@@ -18,39 +37,20 @@ const Sidebar = ({ closeSidebarOnMobile, showSidebar }) => {
   return (
     showSidebar && (
       <aside className="w-64 bg-base-200 border-r border-base-300 fixed sm:relative flex flex-col h-[calc(100vh-4rem)] top-16 sm:top-0 z-20 shadow-lg sm:shadow-none">
-        <nav className="flex-1 p-4 space-y-1 ">
-          <Link
-            to="/"
-            className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
-              currentPath === "/" ? "btn-active" : ""
-            }`}
-            onClick={handleLinkClick}
-          >
-            <HomeIcon className="size-5 text-base-content opacity-70" />
-            <span>Home</span>
-          </Link>
-
-          <Link
-            to="/friends"
-            className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
-              currentPath === "/friends" ? "btn-active" : ""
-            }`}
-            onClick={handleLinkClick}
-          >
-            <UsersIcon className="size-5 text-base-content opacity-70" />
-            <span>Friends</span>
-          </Link>
-
-          <Link
-            to="/notifications"
-            className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
-              currentPath === "/notifications" ? "btn-active" : ""
-            }`}
-            onClick={handleLinkClick}
-          >
-            <BellIcon className="size-5 text-base-content opacity-70" />
-            <span>Notifications</span>
-          </Link>
+        <nav className="flex-1 p-4 space-y-1">
+          {navLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
+                currentPath === link.to ? "btn-active" : ""
+              }`}
+              onClick={handleLinkClick}
+            >
+              {link.icon}
+              <span>{link.label}</span>
+            </Link>
+          ))}
         </nav>
 
         {/* USER PROFILE SECTION */}
