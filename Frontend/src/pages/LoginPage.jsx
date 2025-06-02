@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ShipWheelIcon, EyeOff, Eye } from "lucide-react";
 import { Link } from "react-router";
 import { useLogin } from "../hooks";
-import { Input } from "../components";
+import { Button, Input } from "../components";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({
@@ -16,8 +16,6 @@ const LoginPage = () => {
     e.preventDefault();
     loginMutation(loginData);
   };
-
-  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="h-screen flex items-center justify-center p-4 sm:p-6 md-p8">
@@ -84,22 +82,13 @@ const LoginPage = () => {
                 </div>
 
                 {/* Submit Button */}
-                <button
-                  type="submit"
-                  className="btn w-full btn-primary disabled:bg-primary/50 disabled:text-base-content"
+                <Button
                   disabled={
                     isPending || !loginData.email || !loginData.password
                   }
-                >
-                  {isPending ? (
-                    <>
-                      <span className="loading loading-spinner loading-xs" />
-                      Signing in...
-                    </>
-                  ) : (
-                    "Sign In"
-                  )}
-                </button>
+                  isPending={isPending}
+                  isLogin={true}
+                />
 
                 <div className="text-center mt-4">
                   <p className="text-sm">

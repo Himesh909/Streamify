@@ -10,6 +10,8 @@ import Sidebar from "./Sidebar";
 import ThemeSelector from "./ThemeSelector";
 
 import Input from "./ui/Input";
+import Button from "./ui/Button";
+
 export {
   CallButton,
   ChatLoader,
@@ -22,4 +24,5 @@ export {
   Sidebar,
   ThemeSelector,
   Input,
+  Button,
 };

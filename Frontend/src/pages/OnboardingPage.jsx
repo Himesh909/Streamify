@@ -8,7 +8,7 @@ import {
   ShuffleIcon,
 } from "lucide-react";
 import { LANGUAGES } from "../constants";
-import { Input } from "../components";
+import { Button, Input } from "../components";
 
 const OnboardingPage = () => {
   const { authUser } = useAuthUser();
@@ -143,23 +143,18 @@ const OnboardingPage = () => {
               icon={<MapPinIcon className="size-5" />}
             />
             {/* SUBMIT BUTTON */}
-            <button
-              className="btn btn-primary w-full disabled:bg-primary/50 disabled:text-base-content"
-              disabled={isPending}
-              type="submit"
-            >
-              {!isPending ? (
-                <>
-                  <ShipWheelIcon className="size-5 mr-2" />
-                  Complete Onboarding
-                </>
-              ) : (
-                <>
-                  <span className="loading loading-spinner loading-xs" />
-                  Onboarding...
-                </>
-              )}
-            </button>
+            <Button
+              disabled={
+                isPending ||
+                !formState.fullName ||
+                !formState.bio ||
+                !formState.nativeLanguage ||
+                !formState.learningLanguage ||
+                !formState.location
+              }
+              isPending={isPending}
+              idOnboarding={true}
+            />
           </form>
         </div>
       </div>

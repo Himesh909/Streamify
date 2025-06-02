@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ShipWheelIcon } from "lucide-react";
 import { Link } from "react-router";
 import { useSignup } from "../hooks";
-import { Input } from "../components";
+import { Button, Input } from "../components";
 
 const SignupPage = () => {
   const [signupData, setSignupData] = useState({
@@ -124,9 +124,8 @@ const SignupPage = () => {
                 </div>
 
                 {/* Submit Button */}
-                <button
-                  type="submit"
-                  className="btn w-full btn-primary disabled:bg-primary/50 disabled:text-base-content"
+
+                <Button
                   disabled={
                     isButtonDisabled ||
                     isPending ||
@@ -134,16 +133,9 @@ const SignupPage = () => {
                     !signupData.password ||
                     !signupData.fullName
                   }
-                >
-                  {isPending ? (
-                    <>
-                      <span className="loading loading-spinner loading-xs" />
-                      Loading...
-                    </>
-                  ) : (
-                    "Create Account"
-                  )}
-                </button>
+                  isPending={isPending}
+                  isSignup={true}
+                />
 
                 <div className="text-center mt-4">
                   <p className="text-sm">
