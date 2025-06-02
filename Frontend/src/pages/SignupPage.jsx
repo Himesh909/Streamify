@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { ShipWheelIcon, EyeOff, Eye } from "lucide-react";
+import { ShipWheelIcon } from "lucide-react";
 import { Link } from "react-router";
 import { useSignup } from "../hooks";
+import { Input } from "../components";
 
 const SignupPage = () => {
   const [signupData, setSignupData] = useState({
@@ -17,7 +18,6 @@ const SignupPage = () => {
     signupMutation(signupData);
   };
 
-  const [showPassword, setShowPassword] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   return (
@@ -53,75 +53,50 @@ const SignupPage = () => {
 
               <div className="space-y-3">
                 {/* Full Name */}
-                <div className="form-control w-full">
-                  <label className="label">
-                    <span className="label-text">Full Name</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Jhon Doe"
-                    className="input input-bordered w-full"
-                    value={signupData.fullName}
-                    onChange={(e) =>
-                      setSignupData({
-                        ...signupData,
-                        fullName: e.target.value,
-                      })
-                    }
-                    required
-                  />
-                </div>
+                <Input
+                  label="Full Name"
+                  type="text"
+                  placeholder="Jhon Doe"
+                  value={signupData.fullName}
+                  onChange={(e) =>
+                    setSignupData({
+                      ...signupData,
+                      fullName: e.target.value,
+                    })
+                  }
+                  required
+                />
 
                 {/* Email */}
-                <div className="form-control w-full">
-                  <label className="label">
-                    <span className="label-text">Email</span>
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="jhondoe@example.com"
-                    className="input input-bordered w-full"
-                    value={signupData.email}
-                    onChange={(e) =>
-                      setSignupData({
-                        ...signupData,
-                        email: e.target.value,
-                      })
-                    }
-                    required
-                  />
-                </div>
+                <Input
+                  label="Email"
+                  type="email"
+                  placeholder="jhondoe@example.com"
+                  value={signupData.email}
+                  onChange={(e) =>
+                    setSignupData({
+                      ...signupData,
+                      email: e.target.value,
+                    })
+                  }
+                  required
+                />
 
                 {/* Password */}
                 <div className="form-control w-full">
-                  <label className="label">
-                    <span className="label-text">Password</span>
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="********"
-                      className="input input-bordered w-full pr-12"
-                      value={signupData.password}
-                      onChange={(e) =>
-                        setSignupData({
-                          ...signupData,
-                          password: e.target.value,
-                        })
-                      }
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {!showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                    </button>
-                  </div>
-                  <p className="text-xs opacity-70 mt-1">
-                    Password must be at least 6 characters long.
-                  </p>
+                  <Input
+                    label="Password"
+                    placeholder="********"
+                    value={signupData.password}
+                    onChange={(e) =>
+                      setSignupData({
+                        ...signupData,
+                        password: e.target.value,
+                      })
+                    }
+                    required
+                    isPassword={true}
+                  />
                 </div>
 
                 {/* Agree */}

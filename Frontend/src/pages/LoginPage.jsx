@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ShipWheelIcon, EyeOff, Eye } from "lucide-react";
 import { Link } from "react-router";
 import { useLogin } from "../hooks";
+import { Input } from "../components";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({
@@ -51,55 +52,35 @@ const LoginPage = () => {
 
               <div className="flex flex-col gap-3">
                 {/* Email */}
-                <div className="form-control w-full space-y-2">
-                  <label className="label">
-                    <span className="label-text">Email</span>
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="jhondoe@example.com"
-                    className="input input-bordered w-full"
-                    value={loginData.email}
-                    onChange={(e) =>
-                      setLoginData({
-                        ...loginData,
-                        email: e.target.value,
-                      })
-                    }
-                    required
-                  />
-                </div>
+                <Input
+                  label="Email"
+                  type="email"
+                  placeholder="jhondoe@example.com"
+                  value={loginData.email}
+                  onChange={(e) =>
+                    setLoginData({
+                      ...loginData,
+                      email: e.target.value,
+                    })
+                  }
+                  required
+                />
 
                 {/* Password */}
                 <div className="form-control w-full">
-                  <label className="label">
-                    <span className="label-text">Password</span>
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="********"
-                      className="input input-bordered w-full pr-12"
-                      value={loginData.password}
-                      onChange={(e) =>
-                        setLoginData({
-                          ...loginData,
-                          password: e.target.value,
-                        })
-                      }
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {!showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                    </button>
-                  </div>
-                  <p className="text-xs opacity-70 mt-1">
-                    Password must be at least 6 characters long.
-                  </p>
+                  <Input
+                    label="Password"
+                    placeholder="********"
+                    value={loginData.password}
+                    onChange={(e) =>
+                      setLoginData({
+                        ...loginData,
+                        password: e.target.value,
+                      })
+                    }
+                    required
+                    isPassword={true}
+                  />
                 </div>
 
                 {/* Submit Button */}

@@ -8,6 +8,7 @@ import {
   ShuffleIcon,
 } from "lucide-react";
 import { LANGUAGES } from "../constants";
+import { Input } from "../components";
 
 const OnboardingPage = () => {
   const { authUser } = useAuthUser();
@@ -71,113 +72,76 @@ const OnboardingPage = () => {
                 </button>
               </div>
             </div>
-
             {/* FULL NAME */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Full Name</span>
-              </label>
-              <input
-                type="text"
-                name="fullName"
-                value={formState.fullName}
-                onChange={(e) =>
-                  setFormState({ ...formState, fullName: e.target.value })
-                }
-                className="input input-bordered w-full"
-                placeholder="Your full name"
-              />
-            </div>
-
+            <Input
+              label="Full Name"
+              type="text"
+              name="fullName"
+              placeholder="Your full name"
+              value={formState.fullName}
+              onChange={(e) =>
+                setFormState({ ...formState, fullName: e.target.value })
+              }
+              required
+            />
             {/* BIO */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Bio</span>
-              </label>
-              <textarea
-                name="bio"
-                value={formState.bio}
-                onChange={(e) =>
-                  setFormState({ ...formState, bio: e.target.value })
-                }
-                className="textarea textarea-bordered h-24"
-                placeholder="Tell others about yourself and your language learning goals"
-              />
-            </div>
-
+            <Input
+              label="Bio"
+              name="bio"
+              placeholder="Tell others about yourself and your language learning goals"
+              value={formState.bio}
+              onChange={(e) =>
+                setFormState({ ...formState, bio: e.target.value })
+              }
+              isTextarea={true}
+              rows={4}
+            />
             {/* Languages */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Native Language */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Native Language</span>
-                </label>
-                <select
-                  name="nativeLanguage"
-                  value={formState.nativeLanguage}
-                  onChange={(e) =>
-                    setFormState({
-                      ...formState,
-                      nativeLanguage: e.target.value,
-                    })
-                  }
-                  className="select select-bordered w-full"
-                >
-                  <option value="">Select your native language</option>
-                  {LANGUAGES.map((lang) => (
-                    <option key={`native-${lang}`} value={lang.toLowerCase()}>
-                      {lang}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <Input
+                label="Native Language"
+                name="nativeLanguage"
+                value={formState.nativeLanguage}
+                onChange={(e) =>
+                  setFormState({
+                    ...formState,
+                    nativeLanguage: e.target.value,
+                  })
+                }
+                isSelect={true}
+                defaultOption="Select your native language"
+                required
+              />
 
               {/* LEARNING LANGUAGE */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Learning Language</span>
-                </label>
-                <select
-                  name="learningLanguage"
-                  value={formState.learningLanguage}
-                  onChange={(e) =>
-                    setFormState({
-                      ...formState,
-                      learningLanguage: e.target.value,
-                    })
-                  }
-                  className="select select-bordered w-full"
-                >
-                  <option value="">Select language you're learning</option>
-                  {LANGUAGES.map((lang) => (
-                    <option key={`learning-${lang}`} value={lang.toLowerCase()}>
-                      {lang}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
+              <Input
+                label="Learning Language"
+                name="learningLanguage"
+                value={formState.learningLanguage}
+                onChange={(e) =>
+                  setFormState({
+                    ...formState,
+                    learningLanguage: e.target.value,
+                  })
+                }
+                isSelect={true}
+                defaultOption="Select language you're learning"
+                required
+              />
+            </div>{" "}
             {/* LOCATION */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Location</span>
-              </label>
-              <div className="relative">
-                <MapPinIcon className="absolute top-1/2 transform -translate-y-1/2 left-3 size-5 text-base-content opacity-70" />
-                <input
-                  type="text"
-                  name="location"
-                  value={formState.location}
-                  onChange={(e) =>
-                    setFormState({ ...formState, location: e.target.value })
-                  }
-                  className="input input-bordered w-full pl-10"
-                  placeholder="City, Country"
-                />
-              </div>
-            </div>
-
+            <Input
+              label="Location"
+              type="text"
+              name="location"
+              value={formState.location}
+              onChange={(e) =>
+                setFormState({ ...formState, location: e.target.value })
+              }
+              placeholder="City, Country"
+              icon={<MapPinIcon className="size-5" />}
+            />
             {/* SUBMIT BUTTON */}
             <button
               className="btn btn-primary w-full disabled:bg-primary/50 disabled:text-base-content"
