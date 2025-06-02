@@ -10,6 +10,9 @@ import {
 import { LANGUAGES } from "../constants";
 
 const OnboardingPage = () => {
+  const { authUser } = useAuthUser();
+  const { onboardingMutation, isPending } = useOnboarding();
+
   const [formState, setFormState] = useState({
     fullName: authUser?.fullName || "",
     bio: authUser?.bio || "",
@@ -18,9 +21,6 @@ const OnboardingPage = () => {
     location: authUser?.location || "",
     profilePic: authUser?.profilePic || "",
   });
-
-  const { authUser } = useAuthUser();
-  const { onboardingMutation, isPending } = useOnboarding();
 
   const handleSubmit = (e) => {
     e.preventDefault();
