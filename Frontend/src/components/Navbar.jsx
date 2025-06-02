@@ -1,11 +1,12 @@
-import { BellIcon, LogOutIcon, MenuIcon, ShipWheelIcon } from "lucide-react";
+import { BellIcon, LogOutIcon, MenuIcon } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import ThemeSelector from "./ThemeSelector";
 import { useLogout, useAuthUser } from "../hooks";
+import { Logo } from "../components";
 
 const Navbar = ({ toggleSidebar, showSidebar }) => {
   const { authUser } = useAuthUser();
-  const { logoutMutation, isPending, error } = useLogout();
+  const { logoutMutation } = useLogout();
 
   const callPath = useLocation().pathname.split("/")[1] === "call";
 
@@ -23,18 +24,10 @@ const Navbar = ({ toggleSidebar, showSidebar }) => {
         )}
 
         {callPath ? (
-          <div className="flex items-center gap-2.5">
-            <ShipWheelIcon className="size-6 sm:size-9 text-primary" />
-            <span className="text-xl sm:text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
-              Streamify
-            </span>
-          </div>
+          <Logo className="gap-2.5" />
         ) : (
-          <Link to="/" className="flex items-center gap-2.5">
-            <ShipWheelIcon className="size-6 sm:size-9 text-primary" />
-            <span className="text-xl sm:text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
-              Streamify
-            </span>
+          <Link to="/">
+            <Logo className="gap-2.5" />
           </Link>
         )}
       </div>

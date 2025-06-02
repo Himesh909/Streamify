@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { ShipWheelIcon, EyeOff, Eye } from "lucide-react";
 import { Link } from "react-router";
 import { useLogin } from "../hooks";
-import { Button, Input } from "../components";
+import { Button, Illustration, Input, Logo } from "../components";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({
@@ -23,12 +22,7 @@ const LoginPage = () => {
         {/* Login Form - Left Side */}
         <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
           {/* Logo */}
-          <div className="mb-4 flex items-center justify-start gap-2">
-            <ShipWheelIcon className="size-9 text-primary" />
-            <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
-              Streamify
-            </span>
-          </div>
+          <Logo className="mb-4 justify-start gap-2" />
 
           {/* Error Message if any*/}
           {error && (
@@ -102,29 +96,8 @@ const LoginPage = () => {
             </form>
           </div>
         </div>
-
-        <div className="hidden lg:flex w-full lg:w-1/2 bg-primary/10 items-center justify-center">
-          <div className="max-w-md p-8">
-            {/* Illustration */}
-            <div className="relative aspect-square max-w-sm mx-auto">
-              <img
-                src="/VideoCall/VideoCall.svg"
-                alt="Language connection illustration"
-                className="w-full h-full"
-              />
-            </div>
-
-            <div className="text-center space-y-3 mt-6">
-              <h2 className="text-xl font-semibold">
-                Connect with language partners worldwide
-              </h2>
-              <p className="opacity-70">
-                Practice conversations, make friends, and improve your language
-                skills together
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* Illustration - Right Side */}
+        <Illustration />
       </div>
     </div>
   );

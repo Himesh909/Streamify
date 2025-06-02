@@ -9,8 +9,11 @@ import PageLoader from "./PageLoader";
 import Sidebar from "./Sidebar";
 import ThemeSelector from "./ThemeSelector";
 
+// UI Components
 import Input from "./ui/Input";
 import Button from "./ui/Button";
+import Illustration from "./ui/Illustration";
+import Logo from "./ui/Logo";
 
 export {
   CallButton,
@@ -25,4 +28,6 @@ export {
   ThemeSelector,
   Input,
   Button,
+  Illustration,
+  Logo,
 };
