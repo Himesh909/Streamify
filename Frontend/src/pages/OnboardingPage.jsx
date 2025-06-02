@@ -1,13 +1,7 @@
 import { useState } from "react";
 import { useAuthUser, useOnboarding } from "../hooks";
 import toast from "react-hot-toast";
-import {
-  CameraIcon,
-  MapPinIcon,
-  ShipWheelIcon,
-  ShuffleIcon,
-} from "lucide-react";
-import { LANGUAGES } from "../constants";
+import { CameraIcon, MapPinIcon, ShuffleIcon } from "lucide-react";
 import { Button, Input } from "../components";
 
 const OnboardingPage = () => {

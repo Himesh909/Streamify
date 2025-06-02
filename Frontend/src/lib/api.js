@@ -5,8 +5,8 @@ export const signup = async (signupData) => {
     const res = await axiosInstance.post("/auth/signup", signupData);
     return res.data;
   } catch (error) {
-    console.log("Error in signup:", error.response.data.message);
-    return null;
+    console.error("Error in signup:", error.response?.data?.message);
+    throw error;
   }
 };
 
@@ -15,8 +15,8 @@ export const login = async (loginData) => {
     const res = await axiosInstance.post("/auth/login", loginData);
     return res.data;
   } catch (error) {
-    console.log("Error in login:", error.response.data.message);
-    return null;
+    console.error("Error in login:", error.response?.data?.message);
+    throw error;
   }
 };
 
@@ -25,8 +25,8 @@ export const logout = async () => {
     const res = await axiosInstance.post("/auth/logout");
     return res.data;
   } catch (error) {
-    console.log("Error in logout:", error.response.data.message);
-    return null;
+    console.error("Error in logout:", error.response?.data?.message);
+    throw error;
   }
 };
 
@@ -35,8 +35,8 @@ export const getAuthUser = async () => {
     const res = await axiosInstance.get("/auth/me");
     return res.data;
   } catch (error) {
-    console.log("Error in getAuthUser:", error.response.data.message);
-    return null;
+    console.error("Error in getAuthUser:", error.response?.data?.message);
+    throw error;
   }
 };
 
@@ -45,8 +45,11 @@ export const completeOnBoarding = async (userData) => {
     const res = await axiosInstance.post("/auth/onboarding", userData);
     return res.data;
   } catch (error) {
-    console.log("Error in completeOnBoarding:", error.response.data.message);
-    return null;
+    console.error(
+      "Error in completeOnBoarding:",
+      error.response?.data?.message
+    );
+    throw error;
   }
 };
 
@@ -57,8 +60,8 @@ export async function getUserFriends() {
     const response = await axiosInstance.get("/users/friends");
     return response.data;
   } catch (error) {
-    console.log("Error in getUserFriends:", error.response.data.message);
-    return null;
+    console.error("Error in getUserFriends:", error.response?.data?.message);
+    throw error;
   }
 }
 
@@ -67,8 +70,11 @@ export async function getRecommendedUsers() {
     const response = await axiosInstance.get("/users");
     return response.data;
   } catch (error) {
-    console.log("Error in getRecommendedUsers:", error.response.data.message);
-    return null;
+    console.error(
+      "Error in getRecommendedUsers:",
+      error.response?.data?.message
+    );
+    throw error;
   }
 }
 
@@ -77,8 +83,11 @@ export async function getOutgoingFriendReqs() {
     const response = await axiosInstance.get("/users/outgoing-friend-requests");
     return response.data;
   } catch (error) {
-    console.log("Error in getOutgoingFriendReqs:", error.response.data.message);
-    return null;
+    console.error(
+      "Error in getOutgoingFriendReqs:",
+      error.response?.data?.message
+    );
+    throw error;
   }
 }
 
@@ -89,8 +98,8 @@ export async function sendFriendRequest(userId) {
     );
     return response.data;
   } catch (error) {
-    console.log("Error in sendFriendRequest:", error.response.data.message);
-    return null;
+    console.error("Error in sendFriendRequest:", error.response?.data?.message);
+    throw error;
   }
 }
 
@@ -99,8 +108,8 @@ export async function getFriendRequests() {
     const response = await axiosInstance.get("/users/friend-requests");
     return response.data;
   } catch (error) {
-    console.log("Error in getFriendRequests:", error.response.data.message);
-    return null;
+    console.error("Error in getFriendRequests:", error.response?.data?.message);
+    throw error;
   }
 }
 
@@ -111,8 +120,11 @@ export async function acceptFriendRequest(requestId) {
     );
     return response.data;
   } catch (error) {
-    console.log("Error in acceptFriendRequest:", error.response.data.message);
-    return null;
+    console.error(
+      "Error in acceptFriendRequest:",
+      error.response?.data?.message
+    );
+    throw error;
   }
 }
 
@@ -123,8 +135,11 @@ export async function rejectFriendRequest(requestId) {
     );
     return response.data;
   } catch (error) {
-    console.log("Error in rejectFriendRequest:", error.response.data.message);
-    return null;
+    console.error(
+      "Error in rejectFriendRequest:",
+      error.response?.data?.message
+    );
+    throw error;
   }
 }
 
@@ -133,7 +148,7 @@ export async function getStreamToken() {
     const response = await axiosInstance.get("/chat/token");
     return response.data;
   } catch (error) {
-    console.log("Error in getStreamToken:", error.response.data.message);
-    return null;
+    console.error("Error in getStreamToken:", error.response?.data?.message);
+    throw error;
   }
 }

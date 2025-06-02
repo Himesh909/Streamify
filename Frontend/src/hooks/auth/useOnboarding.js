@@ -11,7 +11,9 @@ const useOnboarding = () => {
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
     onError: (error) => {
-      toast.error(error.response?.data?.message);
+      toast.error(
+        error.response?.data?.message || "Onboarding failed. Please try again."
+      );
     },
   });
   return { onboardingMutation: mutate, isPending };

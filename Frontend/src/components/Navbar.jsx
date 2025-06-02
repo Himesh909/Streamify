@@ -57,7 +57,7 @@ const Navbar = ({ toggleSidebar, showSidebar }) => {
           {/* Logout button */}
           <button
             className="btn btn-ghost btn-circle btn-sm sm:btn-md"
-            onClick={logoutMutation}
+            onClick={() => logoutMutation()}
           >
             <LogOutIcon className="h-4 w-4 sm:h-6 sm:w-6 text-base-content opacity-70" />
           </button>
