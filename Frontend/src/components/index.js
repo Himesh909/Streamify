@@ -1,3 +1,4 @@
+// Importing components
 import CallButton from "./CallButton";
 import ChatLoader from "./ChatLoader";
 import FriendCard from "./FriendCard";
@@ -8,13 +9,9 @@ import NoNotificationsFound from "./NoNotificationsFound";
 import PageLoader from "./PageLoader";
 import Sidebar from "./Sidebar";
 import ThemeSelector from "./ThemeSelector";
+import AuthForm from "./AuthForm";
 
-// UI Components
-import Input from "./ui/Input";
-import Button from "./ui/Button";
-import Illustration from "./ui/Illustration";
-import Logo from "./ui/Logo";
-
+// Exporting all components
 export {
   CallButton,
   ChatLoader,
@@ -26,8 +23,15 @@ export {
   PageLoader,
   Sidebar,
   ThemeSelector,
-  Input,
-  Button,
-  Illustration,
-  Logo,
+  AuthForm,
 };
+
+// UI Components
+import Input from "./ui/Input";
+import Button from "./ui/Button";
+import Illustration from "./ui/Illustration";
+import Logo from "./ui/Logo";
+import Agree from "./ui/Agree";
+
+// Exporting UI components
+export { Input, Button, Illustration, Logo, Agree };
