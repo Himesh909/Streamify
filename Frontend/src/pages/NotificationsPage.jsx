@@ -4,7 +4,7 @@ import {
   MessageSquareIcon,
   UserCheckIcon,
 } from "lucide-react";
-import { NoNotificationsFound } from "../components";
+import { Button, NoNotificationsFound } from "../components";
 import { capitialize } from "../lib/utils";
 import { LANGUAGE_TO_FLAG } from "../constants";
 import {
@@ -81,21 +81,20 @@ const NotificationsPage = () => {
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <button
-                              className="btn btn-primary btn-sm"
-                              onClick={() => acceptRequestMutation(request._id)}
-                              disabled={isAccepting}
-                            >
-                              Accept
-                            </button>
-
-                            <button
-                              className="btn btn-error btn-sm"
-                              onClick={() => rejectRequestMutation(request._id)}
-                              disabled={isRejecting}
-                            >
-                              Reject
-                            </button>
+                            <Button
+                              isAcceptButton={true}
+                              isPending={isAccepting}
+                              onClickHandler={() =>
+                                acceptRequestMutation(request._id)
+                              }
+                            />
+                            <Button
+                              isRejectButton={true}
+                              isPending={isRejecting}
+                              onClickHandler={() =>
+                                rejectRequestMutation(request._id)
+                              }
+                            />
                           </div>
                         </div>
                       </div>

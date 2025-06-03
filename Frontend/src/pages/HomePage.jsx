@@ -1,41 +1,23 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import {
-  getFriendRequests,
-  getOutgoingFriendReqs,
-  getRecommendedUsers,
-  sendFriendRequest,
-} from "../lib/api";
-import {
-  BellDot,
-  CheckCircleIcon,
-  MapPinIcon,
-  UserPlusIcon,
-} from "lucide-react";
-import { getLanguageFlag } from "../components/FriendCard";
-import { capitialize } from "../lib/utils";
-import { useNavigate } from "react-router";
+import { FriendCard, NoUsersFound } from "../components";
 import {
   useIncomingFriendRequests,
   useOutgoingFriendRequests,
   useRecommendedUsers,
   useSendFriendRequest,
 } from "../hooks";
+import { useNavigate } from "react-router";
 
 const HomePage = () => {
-  const queryClient = useQueryClient();
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
   const [incomingRequestsIds, setIncomingRequestsIds] = useState(new Set());
 
-  const navigate = useNavigate();
-
   const { recommendedUsers, loadingUsers } = useRecommendedUsers();
-
   const { outgoingFriendsReqs } = useOutgoingFriendRequests();
-
   const { incomingFriendsReqs } = useIncomingFriendRequests();
-
   const { sendRequestMutation, isPending } = useSendFriendRequest();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const outgoingIds = new Set();
@@ -83,14 +65,7 @@ const HomePage = () => {
               <span className="loading loading-spinner loading-lg" />
             </div>
           ) : recommendedUsers.length === 0 ? (
-            <div className="card bg-base-200 p-6 text-center">
-              <h3 className="font-semibold text-lg mb-2">
-                No recommendations available
-              </h3>
-              <p className="text-base-content opacity-70">
-                Check back later for new language partners!
-              </p>
-            </div>
+            <NoUsersFound />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {recommendedUsers.map((user) => {
@@ -98,83 +73,22 @@ const HomePage = () => {
                 const hasRequestBeenGetted = incomingRequestsIds.has(user._id);
 
                 return (
-                  <div
+                  <FriendCard
+                    onClickHandler={() => {
+                      if (!hasRequestBeenSent && !hasRequestBeenGetted) {
+                        sendRequestMutation(user._id);
+                      } else {
+                        navigate("/notifications");
+                      }
+                    }}
                     key={user._id}
-                    className="card bg-base-200 hover:shadow-lg transition-all duration-300"
-                  >
-                    <div className="card-body p-5 space-y-4">
-                      <div className="flex items-center gap-3">
-                        <div className="avatar size-16 rounded-full">
-                          <img src={user.profilePic} alt={user.fullName} />
-                        </div>
-
-                        <div>
-                          <h3 className="font-semibold text-lg">
-                            {user.fullName}
-                          </h3>
-                          {user.location && (
-                            <div className="flex items-center text-xs opacity-70 mt-1">
-                              <MapPinIcon className="size-3 mr-1" />
-                              {user.location}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Languages with flags */}
-                      <div className="flex flex-wrap gap-1.5">
-                        <span className="badge badge-secondary">
-                          {getLanguageFlag(user.nativeLanguage)}
-                          Native: {capitialize(user.nativeLanguage)}
-                        </span>
-                        <span className="badge badge-outline">
-                          {getLanguageFlag(user.learningLanguage)}
-                          Learning: {capitialize(user.learningLanguage)}
-                        </span>
-                      </div>
-
-                      {user.bio && (
-                        <p className="text-sm opacity-70">{user.bio}</p>
-                      )}
-
-                      {/* Action button */}
-                      <button
-                        className={`btn w-full mt-2 ${
-                          hasRequestBeenSent
-                            ? "btn-disabled"
-                            : hasRequestBeenGetted
-                            ? "btn-secondary"
-                            : "btn-primary"
-                        } `}
-                        // onClick={() => sendRequestMutation(user._id)}
-                        onClick={() => {
-                          if (!hasRequestBeenSent && !hasRequestBeenGetted) {
-                            sendRequestMutation(user._id);
-                          } else {
-                            navigate("/notifications");
-                          }
-                        }}
-                        disabled={hasRequestBeenSent || isPending}
-                      >
-                        {hasRequestBeenSent ? (
-                          <>
-                            <CheckCircleIcon className="size-4 mr-2" />
-                            Request Sent
-                          </>
-                        ) : hasRequestBeenGetted ? (
-                          <>
-                            <BellDot className="size-4 mr-2" />
-                            Accept or Reject Request
-                          </>
-                        ) : (
-                          <>
-                            <UserPlusIcon className="size-4 mr-2" />
-                            Send Friend Request
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
+                    user={user}
+                    isPending={isPending}
+                    disabled={isPending || hasRequestBeenSent}
+                    hasRequestBeenSent={hasRequestBeenSent}
+                    hasRequestBeenGetted={hasRequestBeenGetted}
+                    isSendRequestButton={true}
+                  />
                 );
               })}
             </div>

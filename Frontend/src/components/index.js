@@ -14,6 +14,7 @@ import CallButton from "./ui/CallButton";
 import ChatLoader from "./ui/ChatLoader";
 import NoFriendsFound from "./ui/NoFriendsFound";
 import NoNotificationsFound from "./ui/NoNotificationsFound";
+import NoUsersFound from "./ui/NoUsersFound";
 import PageLoader from "./ui/PageLoader";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
@@ -27,6 +28,7 @@ export {
   ChatLoader,
   NoFriendsFound,
   NoNotificationsFound,
+  NoUsersFound,
   PageLoader,
   Input,
   Button,
