@@ -17,7 +17,7 @@ import {
 const NotificationsPage = () => {
   const [pendingAcceptId, setPendingAcceptId] = useState(null);
   const [pendingRejectId, setPendingRejectId] = useState(null);
-  
+
   const { acceptRequestMutation, isAccepting } = useAcceptFriendRequest();
   const { rejectRequestMutation, isRejecting } = useRejectFriendRequest();
   const { incomingRequests, acceptedRequests, isLoading } = useFriendRequests();
@@ -113,14 +113,18 @@ const NotificationsPage = () => {
                               isPending={isAccepting}
                               pendingId={pendingAcceptId}
                               itemId={request._id}
-                              onClickHandler={() => handleAcceptRequest(request._id)}
+                              onClickHandler={() =>
+                                handleAcceptRequest(request._id)
+                              }
                             />
                             <Button
                               isRejectButton={true}
                               isPending={isRejecting}
                               pendingId={pendingRejectId}
                               itemId={request._id}
-                              onClickHandler={() => handleRejectRequest(request._id)}
+                              onClickHandler={() =>
+                                handleRejectRequest(request._id)
+                              }
                             />
                           </div>
                         </div>
