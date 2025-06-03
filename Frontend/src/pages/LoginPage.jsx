@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useLogin } from "../hooks";
 import { AuthForm, Illustration, Logo } from "../components";
 
@@ -10,10 +10,13 @@ const LoginPage = () => {
 
   const { loginMutation, isPending } = useLogin();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    loginMutation(loginData);
-  };
+  const handleLogin = useCallback(
+    (e) => {
+      e.preventDefault();
+      loginMutation(loginData);
+    },
+    [loginData, loginMutation]
+  );
 
   return (
     <div className="h-screen flex items-center justify-center p-4 sm:p-6 md-p8">

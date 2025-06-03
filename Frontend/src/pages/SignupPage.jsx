@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useSignup } from "../hooks";
 import { AuthForm, Illustration, Logo } from "../components";
 
@@ -11,10 +11,13 @@ const SignupPage = () => {
 
   const { signupMutation, isPending } = useSignup();
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-    signupMutation(signupData);
-  };
+  const handleSignup = useCallback(
+    (e) => {
+      e.preventDefault();
+      signupMutation(signupData);
+    },
+    [signupData, signupMutation]
+  );
 
   return (
     <div className="h-screen flex items-center justify-center p-4 sm:p-6 md-p8">
