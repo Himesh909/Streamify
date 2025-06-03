@@ -35,30 +35,58 @@ const Button = ({
   isAcceptButton = false,
   isRejectButton = false,
 }) => {
-  // Helper function to get the button text for auth buttons during loading state
+  /**
+   * Helper functions for determining button appearance and behavior
+   */
+
+  // Get button class based on type
+  const getButtonClass = () => {
+    // Auth buttons use default primary
+    if (isSignup || isLogin || isOnboarding) return "btn-primary";
+
+    // Friend request button classes
+    if (isSendRequestButton) {
+      if (hasRequestBeenSent) return "btn-disabled";
+      if (hasRequestBeenGetted) return "btn-secondary";
+      return "btn-primary";
+    }
+
+    // Accept/Reject buttons
+    if (isAcceptButton) return "btn-success";
+    if (isRejectButton) return "btn-error";
+
+    // Friend message button uses outline
+    if (isFriendButton) return "btn-outline";
+
+    return "btn-primary"; // Default
+  };
+
+  // Get loading text based on button type
   const getLoadingText = () => {
+    // Auth buttons
     if (isSignup) return "Creating Account...";
     if (isLogin) return "Signing In...";
     if (isOnboarding) return "Completing Onboarding...";
-    return "Submitting...";
+
+    // Friend request actions
+    if (isSendRequestButton) return "Sending Request...";
+    if (isAcceptButton) return "Accepting...";
+    if (isRejectButton) return "Rejecting...";
+
+    return "Processing..."; // Default
   };
 
-  // Helper function to get friend request button class
-  const getFriendRequestButtonClass = () => {
-    if (hasRequestBeenSent) return "btn-disabled";
-    if (hasRequestBeenGetted) return "btn-secondary";
-    if (isAcceptButton) return "btn-success";
-    if (isRejectButton) return "btn-error";
-    return "btn-primary";
-  };
+  /**
+   * Button rendering methods - each returns the appropriate button for its type
+   */
 
-  // Render auth button (signup, login, onboarding)
+  // Auth buttons (signup, login, onboarding)
   const renderAuthButton = () => {
     return (
       <button
         type="submit"
-        className="btn w-full btn-primary disabled:bg-primary/50 disabled:text-base-content"
-        disabled={disabled}
+        className={`btn w-full ${getButtonClass()} disabled:bg-primary/50 disabled:text-base-content`}
+        disabled={disabled || isPending}
       >
         {isPending ? (
           <>
@@ -81,15 +109,20 @@ const Button = ({
     );
   };
 
-  // Render friend request button
+  // Friend request button
   const renderFriendRequestButton = () => {
     return (
       <button
-        className={`btn w-full mt-2 ${getFriendRequestButtonClass()}`}
+        className={`btn w-full mt-2 ${getButtonClass()}`}
         onClick={onClickHandler}
-        disabled={disabled}
+        disabled={disabled || isPending || hasRequestBeenSent}
       >
-        {hasRequestBeenSent ? (
+        {isPending ? (
+          <>
+            <span className="loading loading-spinner loading-xs" />
+            {getLoadingText()}
+          </>
+        ) : hasRequestBeenSent ? (
           <>
             <CheckCircleIcon className="size-4 mr-2" />
             Request Sent
@@ -109,25 +142,31 @@ const Button = ({
     );
   };
 
-  // Render message button for friends
+  // Message button for friends
   const renderMessageButton = () => {
     return (
-      <Link to={`/chat/${user._id}`} className="btn btn-outline w-full">
+      <Link
+        to={`/chat/${user?._id}`}
+        className={`btn w-full ${getButtonClass()}`}
+      >
         Message
       </Link>
     );
   };
 
-  // Render accept or reject buttons for friend requests
+  // Accept or reject buttons for friend requests
   const renderAcceptRejectButtons = () => {
     return (
       <button
-        className={`btn btn-sm ${getFriendRequestButtonClass()}`}
+        className={`btn btn-sm ${getButtonClass()}`}
         onClick={onClickHandler}
-        disabled={isPending}
+        disabled={isPending || disabled}
       >
         {isPending ? (
-          <span className="loading loading-spinner loading-xs" />
+          <>
+            <span className="loading loading-spinner loading-xs" />
+            <span className="ml-1">{getLoadingText()}</span>
+          </>
         ) : (
           <>
             {isAcceptButton && (
@@ -147,7 +186,8 @@ const Button = ({
       </button>
     );
   };
-  // Use if statements to determine which button to render
+
+  // Return the appropriate button based on type
   if (isSignup || isLogin || isOnboarding) {
     return renderAuthButton();
   }
@@ -164,6 +204,7 @@ const Button = ({
     return renderAcceptRejectButtons();
   }
 
+  // Fallback button if no type is specified
   return <button className="btn">Button</button>;
 };
 
