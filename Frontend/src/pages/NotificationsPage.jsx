@@ -7,6 +7,7 @@ import {
 import { Button, NoNotificationsFound } from "../components";
 import { capitialize } from "../lib/utils";
 import { LANGUAGE_TO_FLAG } from "../constants";
+import { useState, useEffect } from "react";
 import {
   useAcceptFriendRequest,
   useFriendRequests,
@@ -14,10 +15,36 @@ import {
 } from "../hooks";
 
 const NotificationsPage = () => {
+  const [pendingAcceptId, setPendingAcceptId] = useState(null);
+  const [pendingRejectId, setPendingRejectId] = useState(null);
+  
   const { acceptRequestMutation, isAccepting } = useAcceptFriendRequest();
   const { rejectRequestMutation, isRejecting } = useRejectFriendRequest();
-
   const { incomingRequests, acceptedRequests, isLoading } = useFriendRequests();
+
+  // Clear pending IDs when operations complete
+  useEffect(() => {
+    if (!isAccepting && pendingAcceptId) {
+      setPendingAcceptId(null);
+    }
+  }, [isAccepting]);
+
+  useEffect(() => {
+    if (!isRejecting && pendingRejectId) {
+      setPendingRejectId(null);
+    }
+  }, [isRejecting]);
+
+  // Handle accept and reject with specific request tracking
+  const handleAcceptRequest = (requestId) => {
+    setPendingAcceptId(requestId);
+    acceptRequestMutation(requestId);
+  };
+
+  const handleRejectRequest = (requestId) => {
+    setPendingRejectId(requestId);
+    rejectRequestMutation(requestId);
+  };
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -84,16 +111,16 @@ const NotificationsPage = () => {
                             <Button
                               isAcceptButton={true}
                               isPending={isAccepting}
-                              onClickHandler={() =>
-                                acceptRequestMutation(request._id)
-                              }
+                              pendingId={pendingAcceptId}
+                              itemId={request._id}
+                              onClickHandler={() => handleAcceptRequest(request._id)}
                             />
                             <Button
                               isRejectButton={true}
                               isPending={isRejecting}
-                              onClickHandler={() =>
-                                rejectRequestMutation(request._id)
-                              }
+                              pendingId={pendingRejectId}
+                              itemId={request._id}
+                              onClickHandler={() => handleRejectRequest(request._id)}
                             />
                           </div>
                         </div>

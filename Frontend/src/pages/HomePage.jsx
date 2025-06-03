@@ -11,6 +11,7 @@ import { useNavigate } from "react-router";
 const HomePage = () => {
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
   const [incomingRequestsIds, setIncomingRequestsIds] = useState(new Set());
+  const [pendingUserId, setPendingUserId] = useState(null); // Track which user ID is pending
 
   const { recommendedUsers, loadingUsers } = useRecommendedUsers();
   const { outgoingFriendsReqs } = useOutgoingFriendRequests();
@@ -41,6 +42,19 @@ const HomePage = () => {
       setIncomingRequestsIds(incomingIds);
     }
   }, [incomingFriendsReqs]);
+
+  // Clear pending user ID when isPending becomes false
+  useEffect(() => {
+    if (!isPending && pendingUserId) {
+      setPendingUserId(null);
+    }
+  }, [isPending]);
+
+  // Handle sending friend request with specific user tracking
+  const handleSendFriendRequest = (userId) => {
+    setPendingUserId(userId);
+    sendRequestMutation(userId);
+  };
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -76,7 +90,7 @@ const HomePage = () => {
                   <FriendCard
                     onClickHandler={() => {
                       if (!hasRequestBeenSent && !hasRequestBeenGetted) {
-                        sendRequestMutation(user._id);
+                        handleSendFriendRequest(user._id);
                       } else {
                         navigate("/notifications");
                       }
@@ -84,6 +98,7 @@ const HomePage = () => {
                     key={user._id}
                     user={user}
                     isPending={isPending}
+                    pendingId={pendingUserId} // Pass the ID of the user that's being processed
                     disabled={isPending || hasRequestBeenSent}
                     hasRequestBeenSent={hasRequestBeenSent}
                     hasRequestBeenGetted={hasRequestBeenGetted}
